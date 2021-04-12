@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
 import ErrorAlert from "../layout/ErrorAlert";
-import { today } from "../utils/date-time";
+import { createReservation } from "../utils/api";
 
 function ReservationForm() {
   const history = useHistory();
@@ -10,23 +10,43 @@ function ReservationForm() {
     first_name: "",
     last_name: "",
     mobile_number: "",
-    reservation_date: today(),
-    reservation_time: "12:00",
+    reservation_date: "",
+    reservation_time: "",
     people: 1,
   };
   const [formData, setFormData] = useState({ ...initialState });
   const handleChange = ({ target }) => {
-    const value = target.type === "checkbox" ? target.checked : target.value;
+    const value =
+      target.type === "number" ? Number(target.value) : target.value;
     setFormData({
       ...formData,
       [target.name]: value,
     });
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    setFormData({ ...initialState });
-    history.push(`/dashboard?date=${formData.reservation_date}`);
+    //make sure reservation date is not in the past or on non working day.
+    let newDate = new Date(
+      `${formData.reservation_date} ${formData.reservation_time}`
+    );
+    let currentDay = new Date();
+    try {
+      if (newDate.getDay() === 2)
+        throw new Error("Restaurant is closed on Tuesdays!");
+      if (newDate < currentDay) throw new Error("Fellow time traveler eh!");
+      //check if reservation time is within working hours
+      let time = Number(formData.reservation_time.replace(":", ""));
+      if (time < 1030 || time > 2130)
+        throw new Error(
+          "Reservations are only valid from 10:30 AM to 9:30 PM."
+        );
+      await createReservation({ data: formData });
+      setFormData({ ...initialState });
+      history.push(`/dashboard?date=${formData.reservation_date}`);
+    } catch (err) {
+      setReservationsError(err);
+    }
   };
 
   return (
@@ -70,7 +90,7 @@ function ReservationForm() {
             className="form-control"
             id="mobile_number"
             type="tel"
-            pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+            //pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
             name="mobile_number"
             onChange={handleChange}
             value={formData.mobile_number}

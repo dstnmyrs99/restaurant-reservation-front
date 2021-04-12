@@ -4,6 +4,7 @@
  */
 import formatReservationDate from "./format-reservation-date";
 import formatReservationTime from "./format-reservation-date";
+import axios from "axios";
 
 const API_BASE_URL =
   process.env.REACT_APP_API_BASE_URL || "http://localhost:5000";
@@ -64,4 +65,17 @@ export async function listReservations(params, signal) {
   return await fetchJson(url, { headers, signal }, [])
     .then(formatReservationDate)
     .then(formatReservationTime);
+}
+
+export async function createReservation(reservation) {
+  return await axios.post(`${API_BASE_URL}/reservations`, reservation);
+}
+
+export async function listTables() {
+  const {data} = await axios.get(`${API_BASE_URL}/tables`);
+  return data.data;
+}
+
+export async function createTable(table) {
+  return await axios.post(`${API_BASE_URL}/tables`, table);
 }
