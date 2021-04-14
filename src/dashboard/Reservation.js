@@ -15,12 +15,17 @@ export default function Reservation({ reservation }) {
           <h6>
             {reservation.people} {reservation.people > 1 ? "Guests" : "Guest"}
           </h6>
-          <Link to={`/reservations/${reservation.reservation_id}/seat`}>
-            <button className="btn btn-primary btn-large">
-              <a href={`/reservations/${reservation.reservation_id}/seat`}></a>
+          <h5 data-reservation-id-status={reservation.reservation_id}>
+            Status: {reservation.status}
+          </h5>
+          {reservation.status === "booked" ? (
+            <Link
+              to={`/reservations/${reservation.reservation_id}/seat`}
+              className="btn btn-primary btn-lg"
+            >
               Seat
-            </button>
-          </Link>
+            </Link>
+          ) : <h5>Seated</h5>}
         </div>
       </div>
     </>

@@ -72,10 +72,32 @@ export async function createReservation(reservation) {
 }
 
 export async function listTables() {
-  const {data} = await axios.get(`${API_BASE_URL}/tables`);
+  const { data } = await axios.get(`${API_BASE_URL}/tables`);
   return data.data;
 }
 
 export async function createTable(table) {
   return await axios.post(`${API_BASE_URL}/tables`, table);
+}
+
+export async function updateTable(table_id, reservation_id) {
+  return await axios.put(
+    `${API_BASE_URL}/tables/${table_id}/seat`,
+    reservation_id
+  );
+}
+
+export async function readReservation(id) {
+  const { data } = await axios.get(`${API_BASE_URL}/reservations/${id}`);
+  return data.data;
+}
+
+export async function clearTable(id){
+  const { data } = await axios.delete(`${API_BASE_URL}/tables/${id}/seat`);
+  return data.data;
+}
+
+export async function updateStatus(id, status){
+  const { data } = await axios.put(`${API_BASE_URL}/reservations/${id}/status`, status);
+  return data.data;
 }
