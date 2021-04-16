@@ -36,17 +36,20 @@ function Dashboard() {
     listReservations({ date }, abortController.signal)
       .then(setReservations)
       .catch(setReservationsError);
-    listTables().then(setTables).catch(setTablesError);
+    listTables(abortController.signal).then(setTables).catch(setTablesError);
     return () => abortController.abort();
   }
 
   return (
-    <main>
+    <main className="text-center">
       <h1>Dashboard</h1>
       <button onClick={() => setDate(previous(date))}>Previous Day</button>
-      <button onClick={() => setDate(today())}>Today</button>
+      <button className="mx-3" onClick={() => setDate(today())}>
+        Today
+      </button>
       <button onClick={() => setDate(next(date))}>Next Day</button>
-      <label htmlFor="reservation_date" className="form-label">
+      <br />
+      <label htmlFor="reservation_date" className="form-label m-3">
         Date:
         <input
           type="date"
@@ -56,17 +59,18 @@ function Dashboard() {
           value={date}
         />
       </label>
-      <div className="d-md-flex mb-3">
-        <h4 className="mb-0">Reservations for {date}</h4>
-      </div>
+      <h4>Reservations for {date}</h4>
+      <div className="d-md-flex mb-3 "></div>
       <ErrorAlert error={reservationsError} />
       <ErrorAlert error={tablesError} />
-      <div className="card-deck">
+      <h3>Tables </h3>
+      <div className="d-flex justify-content-center mb-5 flex-wrap">
         {tables.map((table) => (
           <Tables key={table.table_id} table={table} />
         ))}
       </div>
-      <div className="card-deck">
+      <h3>Reservations</h3>
+      <div className="d-flex justify-content-center flex-wrap">
         {reservations.map((reservation) => (
           <Reservation
             key={reservation.reservation_id}

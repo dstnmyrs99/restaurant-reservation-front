@@ -71,9 +71,10 @@ export async function createReservation(reservation) {
   return await axios.post(`${API_BASE_URL}/reservations`, reservation);
 }
 
-export async function listTables() {
-  const { data } = await axios.get(`${API_BASE_URL}/tables`);
-  return data.data;
+export async function listTables(signal) {
+  const url = new URL(`${API_BASE_URL}/tables`);
+
+  return await fetchJson(url, { headers, signal }, []);
 }
 
 export async function createTable(table) {
@@ -99,5 +100,10 @@ export async function clearTable(id){
 
 export async function updateStatus(id, status){
   const { data } = await axios.put(`${API_BASE_URL}/reservations/${id}/status`, status);
+  return data.data;
+}
+
+export async function updateReservation(id, update){
+  const { data } = await axios.put(`${API_BASE_URL}/reservations/${id}`, update);
   return data.data;
 }

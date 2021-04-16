@@ -58,7 +58,7 @@ export default function Seating() {
           >
             <option>Please Select a table</option>
             {tables.map((table) => {
-              return table.capacity > reservation.people && (
+              return table.capacity >= reservation.people && (
                 <option key={table.table_id} value={table.table_id}>
                   {table.table_name} - {table.capacity}
                 </option>
