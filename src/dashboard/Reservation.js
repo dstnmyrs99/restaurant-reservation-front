@@ -1,7 +1,12 @@
 import { Link } from "react-router-dom";
 import { updateStatus } from "../utils/api";
+import { formatDate, formatTime, formatPhone } from "../utils/date-time";
 
 export default function Reservation({ reservation }) {
+  const date = formatDate(reservation.reservation_date);
+  const time = formatTime(reservation.reservation_time);
+  const phone = formatPhone(reservation.mobile_number);
+
   const handleCancel = async () => {
     if (
       window.confirm(
@@ -21,27 +26,35 @@ export default function Reservation({ reservation }) {
 
   return (
     <>
-      <div className="card mx-3 my-3" style={{ width: "18rem" }}>
+      <div className="card m-3 bg-light" style={{ width: "18rem" }}>
         <div className="card-body">
-          <h4>{reservation.reservation_date}</h4>
-          <h4>{reservation.reservation_time}</h4>
-          <h5 className="card-title">
-            {reservation.first_name} {reservation.last_name}
-          </h5>
-          <h6 className="card-subtitle mb-2 text-muted">
-            {reservation.mobile_number}
-          </h6>
-          <h6>
-            {reservation.people} {reservation.people > 1 ? "Guests" : "Guest"}
-          </h6>
-          <h5 data-reservation-id-status={reservation.reservation_id}>
-            Status: {reservation.status}
-          </h5>
+          <div className="d-flex justify-content-between">
+            <h4 className="card-title">
+              {reservation.first_name} {reservation.last_name}
+            </h4>
+            <h6>
+              <span class="oi oi-people m-2"> </span>
+              {reservation.people}
+            </h6>
+          </div>
+
+          <div className="d-flex justify-content-between">
+            <h6>{date}</h6>
+            <h6>{time}</h6>
+          </div>
+          <div className="d-flex justify-content-between">
+            <h6>{phone}</h6>
+
+            <h5 data-reservation-id-status={reservation.reservation_id}>
+              {reservation.status}
+            </h5>
+          </div>
+
           {reservation.status === "booked" ? (
             <>
               <Link
                 to={`/reservations/${reservation.reservation_id}/seat`}
-                className="btn btn-primary btn-sm"
+                className="btn btn-info btn-sm"
               >
                 Seat
               </Link>
@@ -54,7 +67,7 @@ export default function Reservation({ reservation }) {
               </button>
               <Link
                 to={`/reservations/${reservation.reservation_id}/edit`}
-                className="btn btn-success btn-sm"
+                className="btn btn-warning btn-sm"
               >
                 Edit
               </Link>

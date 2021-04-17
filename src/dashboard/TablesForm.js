@@ -27,7 +27,7 @@ export default function Tables() {
       setFormData({ ...initialState });
       history.push(`/dashboard`);
     } catch (err) {
-      setTablesError(err);
+      setTablesError({ message: err.response.data.error });
     }
   };
 
@@ -67,9 +67,11 @@ export default function Tables() {
             </label>
           </div>
           <div className="form-group">
-            <button type="submit">Submit</button>
-            <button className="mx-3" onClick={() => history.goBack()}>Cancel</button>
-            <button onClick={() => setFormData(initialState)}>Reset</button>
+            <button className="btn btn-sm btn-info" type="submit">Submit</button>
+            <button className="mx-3 btn btn-sm btn-danger" onClick={() => history.goBack()}>
+              Cancel
+            </button>
+            <button className="btn btn-sm btn-warning" onClick={() => setFormData(initialState)}>Reset</button>
           </div>
         </form>
         <ErrorAlert error={tablesError} />

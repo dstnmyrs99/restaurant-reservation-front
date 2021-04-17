@@ -47,7 +47,7 @@ export default function FindByNumber() {
               required
             />
           </div>
-          <button type="submit" className="btn btn-primary btn-lg mb-5">
+          <button type="submit" className="btn btn-light mb-5">
             Find
           </button>
         </form>
@@ -57,7 +57,7 @@ export default function FindByNumber() {
         ) : (
           ""
         )}
-        <div className="d-flex justify-content-center mb-5">
+        <div className="d-flex justify-content-center flex-wrap mb-5">
           {reservationsContent}
         </div>
       </div>

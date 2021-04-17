@@ -38,11 +38,10 @@ function ReservationForm({ type }) {
           ...newRes,
           reservation_date: newRes.reservation_date.slice(0, 10),
         });
-        console.log(newRes);
       };
       loadForm();
     }
-  }, []);
+  }, [type, reservation_id]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -112,7 +111,7 @@ function ReservationForm({ type }) {
               className="form-control"
               id="mobile_number"
               type="tel"
-              //pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+              pattern="(1?)\(?([0-9]{3})?\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})"
               name="mobile_number"
               onChange={handleChange}
               value={formData.mobile_number}
@@ -169,11 +168,11 @@ function ReservationForm({ type }) {
           </label>
         </div>
         <div className="form-group">
-          <button type="submit">Submit</button>
-          <button className="mx-3" onClick={() => history.goBack()}>
+          <button type="submit" className="btn btn-sm btn-info">Submit</button>
+          <button className="mx-3 btn btn-sm btn-danger" onClick={() => history.goBack()}>
             Cancel
           </button>
-          <button onClick={() => setFormData(initialState)}>Reset</button>
+          <button className="btn btn-sm btn-warning" onClick={() => setFormData(initialState)}>Reset</button>
         </div>
       </form>
       <ErrorAlert error={reservationsError} />
