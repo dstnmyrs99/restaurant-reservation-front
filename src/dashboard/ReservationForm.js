@@ -68,7 +68,8 @@ function ReservationForm({ type }) {
       setFormData({ ...initialState });
       history.push(`/dashboard?date=${formData.reservation_date}`);
     } catch (err) {
-      setReservationsError({ message: err.response.data.error });
+      if(err.response) setReservationsError({ message: err.response.data.error })
+      if(!err.response)setReservationsError(err);
     }
   };
 
