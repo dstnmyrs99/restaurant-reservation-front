@@ -6,7 +6,6 @@ import {
   listTables,
   updateTable,
   readReservation,
-  updateStatus,
 } from "../utils/api";
 
 export default function Seating() {
@@ -30,8 +29,8 @@ export default function Seating() {
         const reserved = await readReservation(reservation_id);
         setReservation(reserved);
       } catch (err) {
-        setTablesError(err);
-        setReservationError(err);
+        setTablesError({ message: err.response.data.error });
+        setReservationError({ message: err.response.data.error });
       }
       return () => abortController.abort();
     }
@@ -44,10 +43,9 @@ export default function Seating() {
       if (formData === "Please Select a table")
         throw new Error("Please select a valid table");
       await updateTable(formData, { data: { reservation_id } });
-      await updateStatus(reservation_id, { data: { status: "seated" } });
       history.push("/dashboard");
     } catch (error) {
-      setTablesError(error);
+      setTablesError({ message: err.response.data.error });
     }
   };
   const handleChange = (event) => {
