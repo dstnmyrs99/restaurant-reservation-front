@@ -2,11 +2,7 @@ import { useState, useEffect } from "react";
 import { useHistory, useParams } from "react-router";
 import ErrorAlert from "../layout/ErrorAlert";
 import Reservation from "../dashboard/Reservation";
-import {
-  listTables,
-  updateTable,
-  readReservation,
-} from "../utils/api";
+import { listTables, updateTable, readReservation } from "../utils/api";
 
 export default function Seating() {
   const [formData, setFormData] = useState("Please Select a table");
@@ -41,7 +37,9 @@ export default function Seating() {
     e.preventDefault();
     try {
       if (formData === "Please Select a table")
-        throw new Error("Please select a valid table");
+        throw new Error({
+          response: { data: { error: "Please select a valid table" } },
+        });
       await updateTable(formData, { data: { reservation_id } });
       history.push("/dashboard");
     } catch (error) {
@@ -73,12 +71,11 @@ export default function Seating() {
             >
               <option>Please Select a table</option>
               {tables.map((table) => {
-                return table.capacity >= reservation.people &&
-                  !table.occupied ? (
+                return (
                   <option key={table.table_id} value={table.table_id}>
                     {table.table_name} - {table.capacity}
                   </option>
-                ) : null;
+                );
               })}
             </select>
           </label>
