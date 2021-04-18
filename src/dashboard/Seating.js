@@ -57,6 +57,7 @@ export default function Seating() {
     setFormData("Please Select a table");
     history.goBack();
   };
+
   return (
     <>
       <div className="d-flex flex-column align-items-center justify-content-center mt-5">
@@ -93,7 +94,9 @@ export default function Seating() {
         >
           Cancel
         </button>
-        {reservation.reservation_time && <Reservation reservation={reservation} type="seating"/>}
+        {reservation.reservation_time && (
+          <Reservation reservation={reservation} type="seating" />
+        )}
         <ErrorAlert error={tablesError} />
         <ErrorAlert error={reservationError} />
       </div>

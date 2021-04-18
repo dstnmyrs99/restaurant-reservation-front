@@ -210,7 +210,6 @@ describe("US-04 - Seat reservation - E2E", () => {
         reservation_time: "13:45",
         people: 4,
       });
-
       page = await browser.newPage();
       page.on("console", onPageConsole);
       await page.setViewport({ width: 1920, height: 1080 });
@@ -241,7 +240,6 @@ describe("US-04 - Seat reservation - E2E", () => {
           .innerText.toLowerCase()
           .includes("seat");
       }, hrefSelector);
-
       expect(containsSeat).toBe(true);
     });
   });
