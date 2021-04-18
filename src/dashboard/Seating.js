@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { useHistory, useParams } from "react-router";
 import ErrorAlert from "../layout/ErrorAlert";
-import { formatDate, formatTime } from "../utils/date-time";
 import Reservation from "../dashboard/Reservation";
 import {
   listTables,
@@ -16,8 +15,6 @@ export default function Seating() {
   const [tablesError, setTablesError] = useState(null);
   const [reservation, setReservation] = useState([]);
   const [reservationError, setReservationError] = useState(null);
-  const [date, setDate] = useState("");
-  const [time, setTime] = useState("");
 
   const history = useHistory();
   const { reservation_id } = useParams();
@@ -32,8 +29,6 @@ export default function Seating() {
         setTables(listedTables);
         const reserved = await readReservation(reservation_id);
         setReservation(reserved);
-        setDate(formatDate(reserved.reservation_date));
-        setTime(formatTime(reserved.reservation_time));
       } catch (err) {
         setTablesError(err);
         setReservationError(err);
