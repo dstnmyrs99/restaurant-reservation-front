@@ -45,7 +45,7 @@ export default function Seating() {
       await updateTable(formData, { data: { reservation_id } });
       history.push("/dashboard");
     } catch (error) {
-      setTablesError({ message: err.response.data.error });
+      setTablesError({ message: error.response.data.error });
     }
   };
   const handleChange = (event) => {
