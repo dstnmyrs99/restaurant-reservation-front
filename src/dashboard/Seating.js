@@ -37,13 +37,13 @@ export default function Seating() {
     e.preventDefault();
     try {
       if (formData === "Please Select a table")
-        throw new Error({
-          response: { data: { error: "Please select a valid table" } },
-        });
+        throw new Error("Please select a valid table");
       await updateTable(formData, { data: { reservation_id } });
       history.push("/dashboard");
     } catch (error) {
-      setTablesError({ message: error.response.data.error });
+      if (error.response)
+        setTablesError({ message: error.response.data.error });
+        if(!error.response) setTablesError(error)
     }
   };
   const handleChange = (event) => {
