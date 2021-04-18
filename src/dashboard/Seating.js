@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useHistory, useParams } from "react-router";
 import ErrorAlert from "../layout/ErrorAlert";
 import { formatDate, formatTime } from "../utils/date-time";
+import Reservation from "../dashboard/Reservation";
 import {
   listTables,
   updateTable,
@@ -97,24 +98,7 @@ export default function Seating() {
         >
           Cancel
         </button>
-        {reservation && (
-          <div className="card" style={{ width: "18rem" }}>
-            <div className="card-body">
-              <h5 className="card-title">
-                {reservation.first_name} {reservation.last_name}
-              </h5>
-              <h6 className="card-subtitle mb-2 text-muted">
-                {date}
-                <br />
-                {time}
-              </h6>
-              <h6>
-                {reservation.people}{" "}
-                {reservation.people > 1 ? "Guests" : "Guest"}
-              </h6>
-            </div>
-          </div>
-        )}
+        {reservation.reservation_time && <Reservation reservation={reservation} type="seating"/>}
         <ErrorAlert error={tablesError} />
         <ErrorAlert error={reservationError} />
       </div>

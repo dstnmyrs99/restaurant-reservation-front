@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { updateStatus } from "../utils/api";
 import { formatDate, formatTime, formatPhone } from "../utils/date-time";
 
-export default function Reservation({ reservation }) {
+export default function Reservation({ reservation, type }) {
   const date = formatDate(reservation.reservation_date);
   const time = formatTime(reservation.reservation_time);
   const phone = formatPhone(reservation.mobile_number);
@@ -33,7 +33,7 @@ export default function Reservation({ reservation }) {
               {reservation.first_name} {reservation.last_name}
             </h4>
             <h6>
-              <span class="oi oi-people m-2"> </span>
+              <span className="oi oi-people m-2"> </span>
               {reservation.people}
             </h6>
           </div>
@@ -50,7 +50,7 @@ export default function Reservation({ reservation }) {
             </h5>
           </div>
 
-          {reservation.status === "booked" ? (
+          {reservation.status === "booked" && !type ? (
             <>
               <Link
                 to={`/reservations/${reservation.reservation_id}/seat`}
